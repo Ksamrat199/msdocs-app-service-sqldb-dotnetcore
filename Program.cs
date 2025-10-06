@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using DotNetCoreSqlDb.Data;
+using DotNetCoreSqlDb.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add database context and cache
@@ -24,6 +25,10 @@ else
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Register application services
+builder.Services.AddScoped<ICvTextExtractor, SimpleCvTextExtractor>();
+builder.Services.AddSingleton<ISkillExtractor, SkillExtractor>();
+
 // Add App Service logging
 builder.Logging.AddAzureWebAppDiagnostics();
 
@@ -46,6 +51,21 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Todos}/{action=Index}/{id?}");
+    pattern: "{controller=Students}/{action=Index}/{id?}");
+
+// Auto-apply migrations on startup (fallback to EnsureCreated if migrations unavailable)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<MyDatabaseContext>();
+    try
+    {
+        db.Database.Migrate();
+    }
+    catch
+    {
+        // For environments without EF tools/migrations present
+        db.Database.EnsureCreated();
+    }
+}
 
 app.Run();
