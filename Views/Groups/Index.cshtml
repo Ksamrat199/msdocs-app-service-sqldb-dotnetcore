@@ -1,0 +1,47 @@
+@model IEnumerable<DotNetCoreSqlDb.Models.Group>
+@{
+    ViewData["Title"] = "Groups";
+}
+
+<h2>Groups</h2>
+<form asp-action="AutoGroup" method="post" class="mb-3">
+    <div class="input-group" style="max-width: 320px;">
+        <span class="input-group-text">Group size</span>
+        <input class="form-control" name="groupSize" type="number" min="2" value="4" />
+        <button type="submit" class="btn btn-primary">Auto group</button>
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Members</th>
+            <th>Skills</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var g in Model)
+        {
+            <tr>
+                <td>@g.Name</td>
+                <td>
+                    @foreach (var m in g.Members)
+                    {
+                        <div>@m.Student.FullName</div>
+                    }
+                </td>
+                <td>
+                    @{ var skills = string.IsNullOrWhiteSpace(g.AggregatedSkillsJson) ? new List<string>() : System.Text.Json.JsonSerializer.Deserialize<List<string>>(g.AggregatedSkillsJson) ?? new List<string>(); }
+                    @string.Join(", ", skills)
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@g.Id" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

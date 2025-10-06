@@ -1,0 +1,25 @@
+{
+  "skills": [
+    "C#", "ASP.NET", "ASP.NET Core", "Entity Framework", "SQL", "Azure",
+    "JavaScript", "TypeScript", "React", "Angular", "Vue",
+    "Python", "Django", "Flask",
+    "Java", "Spring", "Kotlin",
+    "Go", "Rust",
+    "HTML", "CSS", "Tailwind", "Bootstrap",
+    "Docker", "Kubernetes", "Git", "CI/CD",
+    "Machine Learning", "Data Science", "Pandas", "NumPy",
+    "Node.js", "Express"
+  ],
+  "aliases": {
+    "CSharp": "C#",
+    "ASP.NET Core": "ASP.NET Core",
+    "EF Core": "Entity Framework",
+    "JS": "JavaScript",
+    "TS": "TypeScript",
+    "ML": "Machine Learning",
+    "K8s": "Kubernetes",
+    "CI": "CI/CD",
+    "CD": "CI/CD",
+    "Node": "Node.js"
+  }
+}

@@ -1,0 +1,19 @@
+@model DotNetCoreSqlDb.Models.Student
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<h2>@Model.FullName</h2>
+<p>Email: @Model.Email</p>
+<p>Uploaded: @Model.UploadedAtUtc.ToString("u")</p>
+@if (!string.IsNullOrEmpty(Model.UploadedFileName))
+{
+    <p>
+        <a href="@Model.UploadedFileName" target="_blank">Download original file</a>
+    </p>
+}
+<h4>Extracted Skills</h4>
+<p>@string.Join(", ", Model.ExtractedSkills)</p>
+
+<h4>Extracted Text</h4>
+<pre style="white-space: pre-wrap">@Model.ExtractedText</pre>

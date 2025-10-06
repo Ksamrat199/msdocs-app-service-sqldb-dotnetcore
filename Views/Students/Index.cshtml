@@ -1,0 +1,36 @@
+@model IEnumerable<DotNetCoreSqlDb.Models.Student>
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h2>Students</h2>
+<p>
+    <a asp-controller="Students" asp-action="Upload" class="btn btn-sm btn-success">Upload CV</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Uploaded</th>
+            <th>Skills</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.FullName</td>
+                <td>@s.Email</td>
+                <td>@s.UploadedAtUtc.ToString("u")</td>
+                <td>
+                    @string.Join(", ", s.ExtractedSkills)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@s.Id" class="btn btn-sm btn-primary">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
