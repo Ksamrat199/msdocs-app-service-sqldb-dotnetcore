@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using DotNetCoreSqlDb.Data;
+using DotNetCoreSqlDb.Services.CvAnalysis;
+using DotNetCoreSqlDb.Services.CvAnalysis.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add database context and cache
@@ -24,6 +26,12 @@ else
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// CV Analyzer services
+builder.Services.AddSingleton<ISkillExtractor, SkillExtractor>();
+builder.Services.AddSingleton<IGroupingService, GroupingService>();
+builder.Services.AddSingleton<ICvTextExtractor, CvTextExtractorRouter>();
+builder.Services.AddScoped<ICvAnalyzer, CvAnalyzer>();
+
 // Add App Service logging
 builder.Logging.AddAzureWebAppDiagnostics();
 
@@ -43,6 +51,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+// Enable attribute-routed API controllers
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
